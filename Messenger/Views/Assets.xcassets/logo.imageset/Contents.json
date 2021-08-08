@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "facebook-messenger-new-2020-seeklogo.com-3.svg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "facebook-messenger-new-2020-seeklogo.com-1.svg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "facebook-messenger-new-2020-seeklogo.com-2.svg",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
