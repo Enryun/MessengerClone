@@ -16,21 +16,26 @@ final class DatabaseManager {
     
     /// Insert New User to Database
     public func insertUser(with user: ChatAppUser) {
-        database.child(user.email).setValue([
+        
+        database.child(user.safeEmail).setValue([
             "first_name" : user.firstName,
             "last_name" : user.lastName
         ])
     }
     
     public func isUserExist(with email: String, completion: @escaping ((Bool) -> Void) ) {
-        database.child(email).observeSingleEvent(of: .value) { snapShot in
+        
+        var safeEmail = email.replacingOccurrences(of: ".", with: "-")
+        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
+                
+        database.child(safeEmail).observeSingleEvent(of: .value, with: { snapShot in
             guard snapShot.value as? String != nil else {
                 completion(false)
                 return
             }
             
             completion(true)
-        }
+        })
         
     }
 }
@@ -40,4 +45,10 @@ struct ChatAppUser {
     let lastName: String
     let email: String
 //    let profilePicUrl: String
+    
+    var safeEmail: String {
+        var safeEmail = email.replacingOccurrences(of: ".", with: "-")
+        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
+        return safeEmail
+    }
 }

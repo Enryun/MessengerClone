@@ -7,11 +7,12 @@
 
 import UIKit
 import FirebaseAuth
+import FBSDKLoginKit
 
 class LogInViewController: UIViewController {
     
     private let logoImage: UIImageView = {
-       let imageView = UIImageView()
+        let imageView = UIImageView()
         imageView.image = UIImage(named: "logo")
         imageView.contentMode = .scaleAspectFill
         
@@ -69,10 +70,17 @@ class LogInViewController: UIViewController {
         
         return button
     }()
-
+    
+    private let loginButtonFB: FBLoginButton = {
+        let button = FBLoginButton()
+        button.permissions = ["email", "public_profile"]
+        return button
+    }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         title = "Log In"
         view.backgroundColor = .white
         
@@ -86,11 +94,14 @@ class LogInViewController: UIViewController {
         emailField.delegate = self
         passwordField.delegate = self
         
+        loginButtonFB.delegate = self
+        
         view.addSubview(scrollView)
         scrollView.addSubview(logoImage)
         scrollView.addSubview(emailField)
         scrollView.addSubview(passwordField)
         scrollView.addSubview(loginButton)
+        scrollView.addSubview(loginButtonFB)
     }
     
     override func viewDidLayoutSubviews() {
@@ -118,6 +129,13 @@ class LogInViewController: UIViewController {
                                    y: passwordField.bottom + 10,
                                    width: scrollView.width - 60,
                                    height: 52)
+        
+        loginButtonFB.frame = CGRect(x: 30,
+                                     y: loginButton.bottom + 10,
+                                     width: scrollView.width - 60,
+                                     height: 52)
+        
+        loginButtonFB.frame.origin.y = loginButton.bottom + 20
     }
     
     @objc private func didTapRegister() {
@@ -126,7 +144,7 @@ class LogInViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
         
     }
-   
+    
     @objc private func logInButtonTap() {
         
         emailField.resignFirstResponder()
@@ -152,7 +170,7 @@ class LogInViewController: UIViewController {
             stringSelf.navigationController?.dismiss(animated: true, completion: nil)
         }
     }
-
+    
     func alertUserLogInError() {
         let alert = UIAlertController(title: "Something Wrong", message: "Please enter all Information", preferredStyle: .alert)
         
@@ -171,5 +189,58 @@ extension LogInViewController: UITextFieldDelegate {
         }
         
         return true
+    }
+}
+
+//MARK: - FB Log In
+
+extension LogInViewController: LoginButtonDelegate {
+    func loginButtonDidLogOut(_ loginButton: FBLoginButton) {
+        // No operation
+    }
+    
+    func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
+        guard  let token = result?.token?.tokenString else {
+            print("Failed to Log In with Facebook")
+            return
+        }
+        
+        let facebookRequest = FBSDKLoginKit.GraphRequest(graphPath: "me",
+                                                         parameters: ["fields" : "email, name"],
+                                                         tokenString: token,
+                                                         version: nil,
+                                                         httpMethod: .get)
+        
+        facebookRequest.start { _, result, error in
+            guard let result = result as? [String : Any], error == nil else {
+                print("failed fb info request")
+                return
+            }
+            
+            
+            guard let email = result["email"] as? String else {
+                print("Fb data ruturn Error")
+                return
+            }
+            
+            DatabaseManager.shared.isUserExist(with: email) { exists in
+                if !exists {
+                    DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: "", lastName: "", email: email))
+                }
+            }
+            
+            let credential = FacebookAuthProvider.credential(withAccessToken: token)
+            FirebaseAuth.Auth.auth().signIn(with: credential) { [weak self] authResult, error in
+                guard let stringSelf = self else {
+                    return
+                }
+                
+                guard authResult != nil, error == nil else {
+                    return
+                }
+
+                stringSelf.navigationController?.dismiss(animated: true, completion: nil)
+            }
+        }
     }
 }
