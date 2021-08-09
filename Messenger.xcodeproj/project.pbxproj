@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		300BAA7BA4B8394F582669AF /* Pods_Messenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 104ECE2F489E20F11F0AD827 /* Pods_Messenger.framework */; };
+		3089541D26C0DCE2000885E2 /* DataBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3089541C26C0DCE2000885E2 /* DataBaseManager.swift */; };
 		308B7FAE26BFE0D700C54A53 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 308B7FAD26BFE0D700C54A53 /* GoogleService-Info.plist */; };
 		30D42EB126BE62AB00BF14C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D42EB026BE62AB00BF14C0 /* AppDelegate.swift */; };
 		30D42EB326BE62AB00BF14C0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D42EB226BE62AB00BF14C0 /* SceneDelegate.swift */; };
@@ -26,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		104ECE2F489E20F11F0AD827 /* Pods_Messenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Messenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3089541C26C0DCE2000885E2 /* DataBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseManager.swift; sourceTree = "<group>"; };
 		308B7FAD26BFE0D700C54A53 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		30D42EAD26BE62AB00BF14C0 /* Messenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Messenger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30D42EB026BE62AB00BF14C0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				30D42EB026BE62AB00BF14C0 /* AppDelegate.swift */,
 				30D42EB226BE62AB00BF14C0 /* SceneDelegate.swift */,
 				30D42ED726BE911300BF14C0 /* Extension.swift */,
+				3089541C26C0DCE2000885E2 /* DataBaseManager.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 				30D42ED526BE76E000BF14C0 /* ProfileViewController.swift in Sources */,
 				30D42EB326BE62AB00BF14C0 /* SceneDelegate.swift in Sources */,
 				30D42ECF26BE76A200BF14C0 /* PhotoViewerViewController.swift in Sources */,
+				3089541D26C0DCE2000885E2 /* DataBaseManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
